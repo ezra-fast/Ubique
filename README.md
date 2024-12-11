@@ -18,8 +18,8 @@ g++ -s core.cpp main.cpp clean-encoding.cpp run_command.cpp ssh_persistence.cpp 
 **Dependencies:**
 
 ```
-1. [JSON Library for C++](https://github.com/nlohmann/json)
-2. [Base64 encoder/decoder for C++](https://github.com/tobiaslocker/base64/tree/master)
-3. [C++ HTTP(S) Library](https://github.com/yhirose/cpp-httplib)
-4. All other dependencies (linux-vdso.so, libssl.so, libcrypto.so, libstdc++.so, libgcc_s.so, libc.so, libm.so) should already be on the platform used for compilation with g++.
+[JSON Library for C++](https://github.com/nlohmann/json)
+[Base64 encoder/decoder for C++](https://github.com/tobiaslocker/base64/tree/master)
+[C++ HTTP(S) Library](https://github.com/yhirose/cpp-httplib)
+All other dependencies (linux-vdso.so, libssl.so, libcrypto.so, libstdc++.so, libgcc_s.so, libc.so, libm.so) should already be on the platform used for compilation with g++.
 ```
