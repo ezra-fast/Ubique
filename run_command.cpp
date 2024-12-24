@@ -1,3 +1,5 @@
+// run_command(command) runs a shell command provided as argument 1 and returns the STDOUT and STDERR streams of the process as an std::string
+
 #include <string>
 
 std::string run_command(const char * command) {
