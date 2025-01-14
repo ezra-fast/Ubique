@@ -4,7 +4,9 @@
 
 std::string run_command(const char * command) {
 
-    FILE * pipe = popen(command, "r");
+    std::string full_command = std::string(command) + " 2>&1";
+
+    FILE * pipe = popen(full_command.c_str(), "r");
     if (!pipe) {return "Failed.";}
 
     char buffer[1024];

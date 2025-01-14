@@ -1,7 +1,5 @@
 // g++ -s core.cpp main.cpp -o test -lssl -lcrypto -lpthread -lstdc++ --static
 
-// g++ -s core.cpp main.cpp clean-encoding.cpp run_command.cpp -o test -lssl -lcrypto -lpthread -I/home/host/LuaDropper/implant/json/include -I/home/host/LuaDropper/implant/base64/include
-
 // g++ -s core.cpp main.cpp clean-encoding.cpp run_command.cpp ssh_persistence.cpp crontab_persistence.cpp grab_read_access_token.cpp -o test -lssl -lcrypto -lpthread -I./json/include -I./base64/include
 
 // ldd application.elf
