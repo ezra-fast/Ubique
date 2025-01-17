@@ -99,8 +99,7 @@ void Core::establish_persistence() {
      * */ 
 
     // if (establish_ssh_persistence() == true) {established_persistence_count++;}                       // true if persistence is established, false otherwise
-    //      ^^^^^ this is commented out because it is functional; the code should be reviewed again before use
-
-    if (establish_crontab_persistence() == true) {established_persistence_count++;}
+    // if (establish_crontab_persistence() == true) {established_persistence_count++;}
+    //      ^^^^^ both persistence routines are functional; the code should be reviewed again before use
 
 }
