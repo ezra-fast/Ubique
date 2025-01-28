@@ -23,3 +23,8 @@ g++ -s core.cpp main.cpp clean-encoding.cpp run_command.cpp ssh_persistence.cpp 
 3. [C++ HTTP(S) Library](https://github.com/yhirose/cpp-httplib)
 4. All other dependencies (linux-vdso.so, libssl.so, libcrypto.so, libstdc++.so, libgcc_s.so, libc.so, libm.so) should already be on the platform used for compilation with g++.
 
+**TODO:**
+
+1. Implement compile time obfuscation for GHPAT (removing the need for grab_read_access_token())
+2. Write the Core::loop routine
+

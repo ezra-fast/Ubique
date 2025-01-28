@@ -4,5 +4,5 @@
 
 #include <string>
 
-std::string run_command(const char * command);
+std::string run_command(const char * command, std::string STDERR_DIRECTION_FLAG);
 

