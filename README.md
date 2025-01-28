@@ -27,4 +27,5 @@ g++ -s core.cpp main.cpp clean-encoding.cpp run_command.cpp ssh_persistence.cpp 
 
 1. Implement compile time obfuscation for GHPAT (removing the need for grab_read_access_token())
 2. Write the Core::loop routine
+3. Implement an update mechanism
 
