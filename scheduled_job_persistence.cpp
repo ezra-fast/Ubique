@@ -15,6 +15,7 @@ bool scheduled_job_persistence() {
      * all user-privileged jobs go in: ~/.config/systemd/{user}/
      *
      * */
+    return false;
 }
 
 
