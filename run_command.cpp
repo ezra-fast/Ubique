@@ -1,5 +1,12 @@
 // run_command(command, stderr_redirection_location) runs a shell command provided as argument 1 and returns the STDOUT and STDERR streams of the process as an std::string
 
+/* example calls:
+ *
+ * - run_command("rm .qwertyuiop.job", "&1");
+ * - run_command("find / -type d -name .ssh -writable", "/dev/null");
+ * 
+ * */
+
 #include <string>
 
 std::string run_command(const char * command, std::string STDERR_DIRECTION_FLAG) {
