@@ -98,6 +98,8 @@ void Core::loop() {
     
         std::cout << "[+] Parsed instruction keyword and operand: " << keyword.at(0) << " " << keyword.at(1) << '\n';
 
+        // all that is left now is to write the modules and payloads themselves
+
     }
 }
                                             // The TLS encryption of this request has been confirmed with Wireshark
